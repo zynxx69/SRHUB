@@ -78,8 +78,8 @@ const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61563801204011";
 const eventsData = [
   {
   title: "Orientation",           /* On Going*/ 
-  start: "2026-11-3T10:27",
-  end: "2026-11-17T11:00",
+  start: "2026-09-3T10:27",
+  end: "2026-09-1T11:00",
   description: "Campus-wide orientation for new students.",
   location: "Gymnasium",
   image: "images/events/orientation.jpg",
@@ -87,13 +87,8 @@ const eventsData = [
   },
   {
     title: "General Assembly & Orientation",
-<<<<<<< HEAD
-    start: "2026-08-20T8:00",
-    end:   "2026-08-21T12:30",
-=======
     start: "2026-11-20T8:00",
     end:   "2026-11-21T12:30",
->>>>>>> 4b545b1 (SRHUB)
     description: "Campus-wide orientation on Student Republic programs, committees, and how to get involved this semester.",
     location: "ISAT-U Dumangas Campus Gymnasium",
     image: "images/events/orientation.jpg",
@@ -101,12 +96,8 @@ const eventsData = [
   },
   {
     title: "Student Leadership Training",  /* upcoming */
-<<<<<<< HEAD
-    start: "2026-09-21T08:00",
-=======
     start: "2026-12-21T08:00",
->>>>>>> 4b545b1 (SRHUB)
-    end:   "2026-09-29T17:00",
+    end:   "2026-11-29T17:00",
     description: "A full-day workshop for class officers and org leaders on leadership, communication, and event planning.",
     location: "ISAT-U Dumangas Multipurpose Hall",
     image: "images/events/student-leadership.jpg",
