@@ -1,0 +1,304 @@
+/* ==========================================================================
+   TABLE OF CONTENTS  (use Ctrl+F and search the title to jump to a part)
+     Scroll progress bar | Top bar | Menu drawer | Notifications | 3D hero seal
+     Glass cards | Footer holder | Click ripple | Smoother on phones
+     Enhanced calendar markers | Moving background | Glass UI
+     Phone fit | Photos that look right on every screen | Animated title lines
+   ========================================================================== */
+/* ==========================================================================
+   STUDENT REPUBLIC - PREMIUM LAYER  (css/premium.css)
+   Loaded AFTER style.css. It only ADDS: 3D effects, glass cards, menu drawer,
+   notifications, footer holder, smoother mobile motion.
+   To restyle colors, change the variables at the top of style.css (:root).
+   To remove a feature, delete its block below (each block has a title).
+   ========================================================================== */
+
+:root{ --ok:#3ecf8e; --bad:#ff6b6b; }
+html{ scrollbar-gutter:stable; overscroll-behavior-y:none; }
+body{
+  touch-action:manipulation;
+  background:radial-gradient(900px 520px at 50% -10%, rgba(46,107,255,.22), transparent), var(--bg);
+}
+body.lock{ overflow:hidden; }
+[hidden]{ display:none !important; }
+
+/* ---------- Scroll progress bar ---------- */
+#progress{
+  position:fixed; top:0; left:0; right:0; height:3px; z-index:1000;
+  transform:scaleX(0); transform-origin:0 50%;
+  background:linear-gradient(90deg, var(--gold), var(--blue-soft));
+}
+
+/* ---------- Top bar: bell + three-line button ---------- */
+.main-nav{ gap:16px; font-size:.85rem; white-space:nowrap; }
+.top-actions{ display:flex; align-items:center; gap:12px; }
+.icon-btn, #nav-toggle{
+  position:relative; width:44px; height:42px; padding:0; border-radius:12px;
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:5px;
+  background:linear-gradient(180deg,#18306a,var(--panel)); border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 5px 0 #040a1a, 0 10px 20px rgba(0,0,0,.35); color:var(--gold-soft);
+  transition:transform .15s, box-shadow .15s;
+}
+.icon-btn:hover, #nav-toggle:hover{ transform:translateY(-1px); }
+.icon-btn:active, #nav-toggle:active{ transform:translateY(4px); box-shadow:0 1px 0 #040a1a; }
+.icon-btn svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; transform-origin:50% 10%; }
+#nav-toggle span{ width:20px; height:2px; border-radius:2px; background:var(--gold-soft); display:block; transition:transform .35s var(--ease), opacity .2s; }
+#nav-toggle.is-open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+#nav-toggle.is-open span:nth-child(2){ opacity:0; }
+#nav-toggle.is-open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+#bell-count{
+  position:absolute; top:-8px; right:-8px; min-width:20px; height:20px; padding:0 5px;
+  border-radius:10px; background:var(--bad); color:#fff; font:700 .7rem/20px var(--font-body); text-align:center;
+}
+#bell.has svg{ animation:shake 2.6s ease-in-out infinite; }
+@keyframes shake{ 0%,70%,100%{transform:none} 75%{transform:rotate(14deg)} 80%{transform:rotate(-12deg)} 85%{transform:rotate(8deg)} 90%{transform:rotate(-4deg)} }
+@media (max-width:1180px){ .main-nav{ display:none !important; } }
+@media (max-width:600px){ .topbar-main{ padding:10px 14px; gap:10px; } .brand span{ font-size:.82rem; line-height:1.15; } }
+
+/* ---------- Menu drawer (opens from the three-line button) ---------- */
+#scrim{ position:fixed; inset:0; z-index:300; background:rgba(3,6,23,.72); opacity:0; visibility:hidden; transition:.35s; }
+#scrim.open{ opacity:1; visibility:visible; }
+#drawer{
+  position:fixed; top:0; right:0; bottom:0; z-index:310; width:min(360px,86vw); overflow-y:auto;
+  padding:calc(20px + env(safe-area-inset-top,0px)) 22px calc(22px + env(safe-area-inset-bottom,0px));
+  display:flex; flex-direction:column;
+  background:linear-gradient(160deg,#10224f,#070d24); border-left:1px solid rgba(255,255,255,.1);
+  box-shadow:-30px 0 60px rgba(0,0,0,.6);
+  transform:translateX(105%) perspective(900px) rotateY(-16deg); transform-origin:right center;
+  transition:transform .55s var(--ease);
+}
+#drawer.open{ transform:none; }
+.drawer-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.drawer-head b{ font-family:var(--font-display); letter-spacing:.18em; font-size:.8rem; color:var(--gold-soft); text-transform:uppercase; }
+#drawer nav a{
+  display:flex; align-items:center; justify-content:space-between; padding:15px 4px;
+  border-bottom:1px solid var(--panel-border); font-family:var(--font-display); font-size:1.08rem;
+  opacity:0; transform:translateX(26px); transition:opacity .4s, transform .5s var(--ease), color .2s;
+}
+#drawer nav a::after{ content:"\203A"; color:var(--gold); }
+#drawer nav a:hover{ color:var(--gold-soft); }
+#drawer.open nav a{ opacity:1; transform:none; }
+#drawer.open nav a:nth-child(1){ transition-delay:.08s } #drawer.open nav a:nth-child(2){ transition-delay:.12s }
+#drawer.open nav a:nth-child(3){ transition-delay:.16s } #drawer.open nav a:nth-child(4){ transition-delay:.20s }
+#drawer.open nav a:nth-child(5){ transition-delay:.24s } #drawer.open nav a:nth-child(6){ transition-delay:.28s }
+#drawer.open nav a:nth-child(7){ transition-delay:.32s } #drawer.open nav a:nth-child(8){ transition-delay:.36s }
+.drawer-holder{ margin-top:auto; padding-top:24px; font-size:.8rem; color:var(--muted); }
+.drawer-holder b{ display:block; color:var(--gold-soft); font-family:var(--font-display); margin:2px 0; }
+
+/* ---------- Notifications ---------- */
+#notif-panel{
+  position:fixed; top:calc(72px + env(safe-area-inset-top,0px)); right:14px; z-index:250;
+  width:min(380px,calc(100vw - 28px)); max-height:72vh; overflow:auto; padding:14px; border-radius:18px;
+  background:linear-gradient(160deg,#10224f,#080e26); border:1px solid rgba(255,255,255,.12); box-shadow:0 30px 70px rgba(0,0,0,.8);
+  opacity:0; visibility:hidden; transform:perspective(700px) rotateX(-16deg) translateY(-10px); transform-origin:top right;
+  transition:.35s var(--ease);
+}
+#notif-panel.open{ opacity:1; visibility:visible; transform:none; }
+.n-head{ display:flex; justify-content:space-between; align-items:baseline; padding:2px 4px 6px; }
+.n-head h3{ font-size:1.05rem; }
+.n-head small{ color:var(--muted-2); }
+.n-item{
+  display:block; width:100%; text-align:left; margin:8px 0; padding:12px 14px; cursor:pointer; font:inherit; color:var(--white);
+  background:rgba(255,255,255,.04); border:1px solid transparent; border-left:4px solid var(--gold); border-radius:12px;
+  transition:transform .2s, background .2s;
+}
+.n-item:hover{ transform:translateX(4px); background:rgba(255,255,255,.09); }
+.n-item b{ display:block; font-family:var(--font-display); font-size:.95rem; }
+.n-item span{ display:block; color:var(--muted); font-size:.82rem; margin-top:2px; }
+.n-item em{ display:block; margin-top:6px; font-style:normal; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-soft); }
+.n-live{ border-left-color:var(--ok); } .n-news{ border-left-color:var(--blue-soft); }
+.n-notice{ border-left-color:var(--bad); cursor:default; color:var(--muted); font-size:.82rem; }
+.n-notice:hover{ transform:none; }
+.n-empty{ color:var(--muted-2); font-size:.88rem; padding:8px 6px; }
+#toast{
+  position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); z-index:400; width:min(420px,calc(100vw - 28px));
+  padding:14px 18px; border-radius:14px; background:#0d1a44; border:1px solid rgba(255,199,44,.4); box-shadow:0 18px 40px rgba(0,0,0,.7);
+  font-size:.9rem; opacity:0; visibility:hidden; transform:translate(-50%,24px); transition:.5s var(--ease);
+}
+#toast.show{ opacity:1; visibility:visible; transform:translate(-50%,0); }
+
+/* ---------- 3D hero seal ---------- */
+.seal-stage{ position:relative; width:min(300px,72vw); aspect-ratio:1; margin:0 auto 22px; display:grid; place-items:center; perspective:1000px; }
+.seal-stage .hero-seal{
+  grid-area:1/1; width:150%; height:150%; max-width:none; margin:0;   /* logo file has transparent padding, so it is scaled up */
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  filter:drop-shadow(0 26px 30px rgba(0,0,0,.65)) drop-shadow(0 0 30px rgba(255,199,44,.28));
+  animation:floaty 6s ease-in-out infinite; will-change:transform;
+}
+.orbit{ position:absolute; inset:3%; border-radius:50%; border:1px solid rgba(255,199,44,.4); transform:rotateX(72deg); animation:orbit 12s linear infinite; pointer-events:none; }
+.orbit.o2{ inset:6%; border-style:dashed; border-color:rgba(111,155,255,.4); transform:rotateY(70deg); animation:orbit2 18s linear infinite; }
+@keyframes floaty{ 50%{ translate:0 -10px; } }
+@keyframes orbit{ to{ transform:rotateX(72deg) rotate(360deg); } }
+@keyframes orbit2{ to{ transform:rotateY(70deg) rotate(360deg); } }
+
+/* ---------- Glass cards with 3D tilt (all event and officer cards) ---------- */
+.cards-grid{ grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); }
+.cards-grid > *{ min-width:0; }
+.tilt-card.in-view{ transform:perspective(900px) translateY(0) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg)); }
+.event-card:hover{ transform:perspective(900px) translateY(-6px) rotateX(var(--tx,0deg)) rotateY(var(--ty,0deg)); }
+.event-card.tilting{ transition:transform .12s linear, border-color .4s, box-shadow .4s; }
+.event-card.flash{ animation:glowflash 1.6s ease 2; }
+@keyframes glowflash{ 50%{ box-shadow:0 0 0 3px var(--gold), 0 0 44px rgba(255,199,44,.55); } }
+
+/* ---------- Footer: website holder (highlighted) + view counter ---------- */
+.holder{
+  max-width:1240px; margin:44px auto 0; padding:22px 26px; border-radius:var(--radius);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 28px;
+  background:linear-gradient(120deg,rgba(255,199,44,.12),rgba(46,107,255,.14)); border:1px solid rgba(255,199,44,.5);
+  box-shadow:0 0 40px rgba(255,199,44,.14), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.holder-label{ font-family:var(--font-mono); letter-spacing:.25em; text-transform:uppercase; font-size:.68rem; color:var(--gold-soft); }
+.holder strong{ display:block; margin-top:4px; font-family:var(--font-display); font-size:1.3rem; background:linear-gradient(90deg,#fff3c2,var(--gold)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.holder-dept{ color:var(--muted); font-size:.9rem; }
+.holder mark{ background:var(--gold); color:#1a1200; padding:2px 10px; border-radius:8px; font:700 .85rem var(--font-mono); margin-right:6px; }
+#view-count-wrap{ margin-bottom:8px; color:var(--gold-soft); }
+
+/* ---------- Click ripple ---------- */
+.ripple{ position:fixed; width:12px; height:12px; margin:-6px; border-radius:50%; background:rgba(255,199,44,.4); pointer-events:none; z-index:900; animation:rip .7s ease-out forwards; }
+@keyframes rip{ to{ transform:scale(10); opacity:0; } }
+
+/* ---------- Smoother on phones ---------- */
+@media (max-width:760px){
+  .glow{ filter:blur(50px); opacity:.4; }
+  .reveal, .tilt-card{ transition-duration:.6s; }
+}
+@media (prefers-reduced-motion:reduce){ .seal-stage .hero-seal, .orbit, #bell.has svg{ animation:none; } }
+
+/* ---------- Enhanced calendar markers (event days) ---------- */
+.cal-day{ overflow:hidden; }
+.cal-day.today{ border-color:var(--blue-soft); box-shadow:0 0 0 1px var(--blue-soft), 0 0 18px rgba(111,155,255,.35); }
+.cal-day.has-event{ background:linear-gradient(160deg,rgba(255,199,44,.2),rgba(46,107,255,.14)); border-color:rgba(255,199,44,.55); box-shadow:0 0 16px rgba(255,199,44,.16); }
+.cal-day.has-event:hover{ box-shadow:0 10px 24px rgba(0,0,0,.5), 0 0 20px rgba(255,199,44,.3); }
+.cal-day.ev-live{ background:linear-gradient(160deg,rgba(255,77,77,.3),rgba(255,77,77,.1)); border-color:rgba(255,77,77,.75); box-shadow:0 0 22px rgba(255,77,77,.4); }
+.cal-day.has-past-event{ border-color:rgba(106,122,168,.35); }
+.cal-pin{ position:relative; width:12px; height:12px; margin-top:5px; border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+  background:radial-gradient(circle at 35% 30%,#fffbe0,var(--gold) 50%,var(--gold-deep)); box-shadow:-2px 3px 5px rgba(0,0,0,.55); }
+.cal-pin::after{ content:""; position:absolute; inset:3px; border-radius:50%; background:var(--bg); }
+.ev-up .cal-pin, .ev-live .cal-pin{ animation:pinbob 2s ease-in-out infinite; }
+.ev-live .cal-pin{ background:radial-gradient(circle at 35% 30%,#ffd6d6,#ff4d4d 50%,#a11); }
+.has-past-event .cal-pin{ background:radial-gradient(circle at 35% 30%,#cfd8f5,#6a7aa8 55%,#3a4a72); opacity:.8; }
+.cal-day.selected .cal-pin{ background:#0a0f22; }
+.cal-day.selected .cal-pin::after{ background:var(--gold); }
+@keyframes pinbob{ 50%{ transform:rotate(-45deg) translate(2px,-3px); } }
+.cal-count{ position:absolute; top:4px; right:4px; min-width:16px; height:16px; padding:0 4px; border-radius:8px; background:var(--gold); color:#1a1200; font:700 .62rem/16px var(--font-body); text-align:center; }
+.cal-legend{ display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:16px; font-size:.75rem; color:var(--muted); }
+.cal-legend i{ display:inline-block; width:10px; height:10px; margin-right:7px; vertical-align:-1px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); }
+.lg-up{ background:var(--gold); } .lg-live{ background:#ff4d4d; } .lg-past{ background:#6a7aa8; }
+.cal-legend .lg-today{ border:2px solid var(--blue-soft); border-radius:50%; transform:none; }
+
+/* ---------- Phone fit: nothing may push the page sideways ---------- */
+html, body{ overflow-x:clip; }
+@media (max-width:600px){
+  .seal-stage .hero-seal{ width:128%; height:128%; }
+  .orbit{ inset:12%; } .orbit.o2{ inset:16%; }
+}
+
+/* ---------- Photos that look right on every screen ----------
+   Photos keep a fixed SHAPE (not a fixed height), so they crop the same way
+   on phones and computers. Each shape is easy to change:
+     events: 16/10 (wide)    officers: 1/1 on computer, 4/5 (tall) on phones
+   If a face or a poster text is cut off, add  focus: "center top"  to that
+   line in js/draftsr.js (see "CHANGE OR ADD A PHOTO" there).                */
+.event-card .media{ height:auto; aspect-ratio:16/10; }
+.officers-grid .event-card .media{ aspect-ratio:1/1; }
+.officers-grid .event-card .media img{ object-position:center 20%; }   /* keeps faces in view */
+@media (max-width:600px){
+  .officers-grid{ grid-template-columns:repeat(2,1fr); gap:14px; }     /* 2 officers per row on phones */
+  .officers-grid .event-card .media{ aspect-ratio:4/5; }
+  .officers-grid .event-card .body{ padding:12px 10px 16px; gap:6px; }
+  .officers-grid .event-card h3{ font-size:.95rem; line-height:1.25; }
+  .officers-grid .role-badge{ font-size:.58rem; letter-spacing:.05em; line-height:1.35; }
+  .cards-grid{ gap:16px; }
+}
+
+/* ---------- Animated title lines (the gold/blue line under every section title) ----------
+   Grows when the title scrolls into view, then keeps flowing and glowing.
+   Change the width below (96px) or the speed (3.2s). Colors come from style.css (:root). */
+.section-head h2::after{
+  content:""; display:block; width:96px; height:3px; margin:14px auto 0; border-radius:3px;
+  background:linear-gradient(90deg,var(--gold),var(--blue-soft),var(--gold),var(--blue-soft)); background-size:300% 100%;
+  box-shadow:0 0 12px rgba(255,199,44,.45);
+  animation:lineflow 3.2s linear infinite, linepulse 3.2s ease-in-out infinite;
+  transition:width .9s var(--ease) .15s;
+}
+.section-head.reveal:not(.in-view) h2::after{ width:0; }
+@keyframes lineflow{ to{ background-position:300% 0; } }
+@keyframes linepulse{ 50%{ box-shadow:0 0 22px rgba(111,155,255,.75); } }
+@media (prefers-reduced-motion:reduce){ .section-head h2::after{ animation:none; } }
+
+
+/* ==========================================================================
+   MOVING BACKGROUND  (slow soft light that drifts behind everything)
+   --------------------------------------------------------------------------
+   HOW TO EDIT
+     - Slower / faster ........ change the seconds in the "animation:" lines (60s, 75s ...).
+                                Bigger number = slower.
+     - Stronger / weaker ...... change  opacity  on .bm (0.5 = half visible).
+     - Colors ................. change the rgba(...) colors inside each .bm1 .. .bm4.
+     - Turn it off ............ delete <div class="bg-motion"> in index.html.
+   It only uses transform animations, so it stays smooth on phones.
+   ========================================================================== */
+.bg-motion{ position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none; contain:layout paint; }
+.bm{ position:absolute; border-radius:50%; opacity:.5; will-change:transform; }
+.bm1{ width:70vmax; height:70vmax; left:-22vmax; top:-26vmax; background:radial-gradient(circle,rgba(46,107,255,.42),transparent 62%); animation:drift1 62s ease-in-out infinite alternate; }
+.bm2{ width:60vmax; height:60vmax; right:-24vmax; top:14vh;   background:radial-gradient(circle,rgba(255,199,44,.20),transparent 62%); animation:drift2 78s ease-in-out infinite alternate; }
+.bm3{ width:66vmax; height:66vmax; left:8vw;  bottom:-38vmax; background:radial-gradient(circle,rgba(84,70,214,.36),transparent 62%); animation:drift3 92s ease-in-out infinite alternate; }
+.bm4{ width:38vmax; height:38vmax; left:46vw; top:32vh;       background:radial-gradient(circle,rgba(111,155,255,.20),transparent 62%); animation:drift4 70s ease-in-out infinite alternate; }
+/* two faint, blurred rings: just enough detail for the glass to blur and bend */
+.bm-ring{ position:absolute; border-radius:50%; border:2px solid transparent; filter:blur(3px); animation:ringturn 140s linear infinite; }
+.bm-ring.r1{ width:46vmax; height:46vmax; left:54vw; top:-12vmax; border-top-color:rgba(255,255,255,.17); border-right-color:rgba(111,155,255,.12); }
+.bm-ring.r2{ width:34vmax; height:34vmax; left:-10vmax; top:56vh; border-bottom-color:rgba(255,199,44,.16); border-left-color:rgba(255,255,255,.08); animation-direction:reverse; }
+@keyframes drift1{ to{ transform:translate3d(16vw,12vh,0) scale(1.14); } }
+@keyframes drift2{ to{ transform:translate3d(-14vw,-10vh,0) scale(1.12); } }
+@keyframes drift3{ to{ transform:translate3d(14vw,-12vh,0) scale(1.1); } }
+@keyframes drift4{ to{ transform:translate3d(-12vw,10vh,0) scale(1.2); } }
+@keyframes ringturn{ to{ transform:rotate(360deg); } }
+@media (max-width:760px){ .bm{ opacity:.42; } }
+
+/* ==========================================================================
+   GLASS UI  (frosted glass cards, panels and bars with realistic depth)
+   --------------------------------------------------------------------------
+   HOW IT LOOKS REAL: a blurred see-through fill + a bright thin edge on the top-left
+   (light hitting the glass) + a dim edge on the bottom-right + two soft shadows
+   (a tight one close to the card and a wide one far below it).
+   HOW TO EDIT (change the numbers below, everything updates):
+     --glass-blur    how frosted it is   (10px = clear, 28px = very frosted)
+     --glass-tint    how dark the glass is (raise the last number for darker glass)
+     --glass-edge    how bright the edge light is
+     --glass-shadow  how strong the shadows are
+   Officer cards use the same look WITHOUT the blur, because 30 blurred cards would make
+   phones scroll slowly. Event cards lose the blur on phones for the same reason.
+   ========================================================================== */
+:root{
+  --glass-blur:   blur(18px) saturate(160%);
+  --glass-tint:   rgba(11,20,52,.42);
+  --glass-sheen:  linear-gradient(140deg, rgba(255,255,255,.13), rgba(255,255,255,.03) 42%, rgba(255,255,255,.07));
+  --glass-edge:   inset 1px 1px 0 rgba(255,255,255,.24), inset -1px -1px 0 rgba(255,255,255,.05), inset 0 0 26px rgba(255,255,255,.035);
+  --glass-shadow: 0 2px 4px rgba(0,0,0,.28), 0 18px 42px -10px rgba(0,0,0,.62), 0 40px 80px -30px rgba(0,0,0,.55);
+}
+#topbar, .countdown-box, .calendar-card, .day-panel, .holder, #drawer, #notif-panel, #toast,
+.cards-grid:not(.officers-grid) .event-card, .officers-grid .event-card{
+  background:var(--glass-sheen), var(--glass-tint);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:var(--glass-edge), var(--glass-shadow);
+}
+#topbar, .countdown-box, .calendar-card, .day-panel, .holder, #drawer, #notif-panel, #toast,
+.cards-grid:not(.officers-grid) .event-card{
+  -webkit-backdrop-filter:var(--glass-blur); backdrop-filter:var(--glass-blur);
+}
+#topbar{ background:linear-gradient(180deg,rgba(18,32,78,.58),rgba(8,14,36,.42)); border-width:0 0 1px; box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 12px 30px -12px rgba(0,0,0,.65); }
+#drawer{ background:linear-gradient(160deg,rgba(24,44,104,.74),rgba(8,14,38,.86)); -webkit-backdrop-filter:blur(26px) saturate(150%); backdrop-filter:blur(26px) saturate(150%); }
+#notif-panel{ background:linear-gradient(160deg,rgba(24,44,104,.78),rgba(8,14,38,.88)); }
+#toast{ background:linear-gradient(160deg,rgba(24,44,104,.8),rgba(8,14,38,.9)); }
+.holder{ background:linear-gradient(120deg,rgba(255,199,44,.14),rgba(46,107,255,.16)), var(--glass-tint); border-color:rgba(255,199,44,.45); }
+.event-card:hover{ box-shadow:var(--glass-edge), 0 4px 8px rgba(0,0,0,.3), 0 28px 56px -10px rgba(0,0,0,.7), 0 50px 90px -30px rgba(0,0,0,.6); }
+.cal-day{ background:rgba(255,255,255,.05); box-shadow:inset 1px 1px 0 rgba(255,255,255,.1), inset -1px -1px 0 rgba(255,255,255,.02), 0 3px 8px -3px rgba(0,0,0,.45); }
+.n-item{ background:rgba(255,255,255,.06); box-shadow:inset 1px 1px 0 rgba(255,255,255,.12), 0 6px 14px -8px rgba(0,0,0,.6); }
+/* Older browsers without glass support get a more solid panel so text stays readable */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  #topbar, .countdown-box, .calendar-card, .day-panel, .holder, #drawer, #notif-panel, #toast, .event-card{ background:#0d1638; }
+}
+@media (max-width:760px){
+  .cards-grid:not(.officers-grid) .event-card{ -webkit-backdrop-filter:none; backdrop-filter:none; background:var(--glass-sheen), rgba(11,20,52,.72); }
+  .officers-grid .event-card{ background:var(--glass-sheen), rgba(11,20,52,.72); }
+}
